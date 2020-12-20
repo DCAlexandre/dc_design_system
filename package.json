@@ -1,0 +1,64 @@
+{
+	"name": "dc_design_system",
+	"description": "Design system",
+	"version": "1.0.9",
+	"author": "DCAlexandre",
+	"copyright": "Copyright © year ${author}",
+	"private": false,
+	"main": "dist/index.js",
+	"module": "dist/index.fr.js",
+	"jsnext:main": "dist/index.fr.js",
+	"homepage": "https://github.com/DCAlexandre/design_system#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DCAlexandre/design_system.git"
+	},
+	"license": "MIT",
+	"scripts": {
+		"start": "cls && start-storybook -p 9099",
+		"build": "cls && rollup -c",
+		"build-storybook": "cls && build-storybook -o build",
+		"build-docs": "cls && build-storybook --docs -o build_docs",
+		"deploy": "cls && npm run build && npm publish --access=public"
+	},
+	"files": [
+		"dist"
+	],
+	"engines": {
+		"node": ">=8",
+		"npm": ">=5"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.12.3",
+		"@babel/plugin-proposal-class-properties": "^7.12.1",
+		"@babel/plugin-transform-runtime": "^7.12.1",
+		"@babel/preset-env": "^7.12.1",
+		"@babel/preset-react": "^7.12.1",
+		"@rollup/plugin-babel": "^5.2.1",
+		"@rollup/plugin-commonjs": "^16.0.0",
+		"@rollup/plugin-node-resolve": "^10.0.0",
+		"@rollup/plugin-url": "^5.0.1",
+		"@storybook/addon-essentials": "^6.1.10",
+		"@storybook/addon-links": "^6.1.10",
+		"@storybook/addons": "^6.1.10",
+		"@storybook/react": "^6.1.10",
+		"@storybook/source-loader": "^6.1.10",
+		"@svgr/cli": "^5.4.0",
+		"@svgr/rollup": "^5.4.0",
+		"@svgr/webpack": "^5.4.0",
+		"babel-loader": "^8.1.0",
+		"babel-plugin-react-docgen": "^4.2.1",
+		"color": "^3.1.3",
+		"emotion": "^10.0.23",
+		"facepaint": "^1.2.1",
+		"form-serialize": "^0.7.2",
+		"moment": "^2.29.1",
+		"react": "^16.13.1",
+		"react-docgen": "^5.3.1",
+		"react-dom": "^16.13.1",
+		"react-scripts": "^4.0.0",
+		"rollup": "^2.32.1",
+		"rollup-plugin-peer-deps-external": "^2.2.4",
+		"rollup-plugin-postcss": "^3.1.8"
+	}
+}
