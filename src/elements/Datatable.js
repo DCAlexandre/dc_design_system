@@ -230,7 +230,7 @@ class Datatable extends React.Component {
 
 			// Ajout de la ligne
 			const style = css(mq({
-				backgroundColor: (ln%2 === 0 ? 'rgba(0,0,0,.05)' : '#FFFFFF'),
+				backgroundColor: (ln%2 === 0 ? 'rgba(189, 189, 189, .35)' : '#FFFFFF'),
 				'&:hover': {
 					backgroundColor: (this.props.onClick ? 'rgba(0, 0, 0, 0.1)' : '')
 				}

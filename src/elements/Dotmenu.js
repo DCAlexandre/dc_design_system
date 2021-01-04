@@ -1,6 +1,5 @@
 import React from 'react'
 import { css } from 'emotion'
-import mq from '../Breakpoints.js'
 import MoreHoriz from './svg/MoreHoriz.js'
 
 export default class Dotmenu extends React.Component {
