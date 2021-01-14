@@ -67,16 +67,27 @@ class Datatable extends React.Component {
 		}
 	}
 
-	filter = (collection, filters, value) => {
-		if (value) {
+	filter = (collection, filters, valueSearched) => {
+		if (valueSearched) {
+			const value = valueSearched.toLowerCase()
 			const filterKeys = Object.keys(filters)
-			return collection.filter(data => {
-				return filterKeys.some(key => {
+			const includes = collection.filter((data) => {
+				return filterKeys.some((key) => {
 					const val = data[key].toString().toLowerCase()
-
-					return val.includes(value.toLowerCase())
+					return val.includes(value)
 				})
 			})
+
+			for (let index = 0; index < filterKeys.length; index++) {
+				const key = filterKeys[index]
+				includes.sort((a, b) => {
+					const valA = a[key].toString().toLowerCase()
+					const valB = a[key].toString().toLowerCase()
+					return (valA.startsWith(value) ? -1 : valB.startsWith(value) ? 1 : 0)
+				})
+			}
+
+			return includes
 		} else {
 			return collection
 		}
@@ -142,6 +153,14 @@ class Datatable extends React.Component {
 			}
 		}
 
+		if (this.props.options) {
+			if (this.props.options.length) {
+				cells.push(
+					<Thead name='' text='' key='options'/>
+				)
+			}
+		}
+
 		// Ajout de la ligne
 		cols.push( <tr key='row'>{cells}</tr> )
 
@@ -151,24 +170,24 @@ class Datatable extends React.Component {
 	renderRow() {
 		if (this.props.isLoading) {
 			return (
-			<tr>
-				<td style={{paddingLeft: '0.5rem', paddingRight: '0.5rem'}}
-					colSpan={Object.keys(this.props.headCols).length}>
-					Loading ...
-				</td>
-			</tr>
+				<tr>
+					<td style={{paddingLeft: '0.5rem', paddingRight: '0.5rem'}}
+						colSpan={Object.keys(this.props.headCols).length}>
+						Loading ...
+					</td>
+				</tr>
 			)
 		} else {
 			if (this.state.data.length) {
 				return this.renderDatas()
 			} else {
 				return (
-				<tr>
-					<td style={{paddingLeft: '0.5rem', paddingRight: '0.5rem'}}
-						colSpan={Object.keys(this.props.headCols).length}>
-						No datas available
-					</td>
-				</tr>
+					<tr>
+						<td style={{paddingLeft: '0.5rem', paddingRight: '0.5rem'}}
+							colSpan={Object.keys(this.props.headCols).length}>
+							{(this.props.t ? this.props.t('No data available') : 'No data available')}
+						</td>
+					</tr>
 				)
 			}
 		}
@@ -211,13 +230,6 @@ class Datatable extends React.Component {
 					console.error('headCols props invalid')
 				}
 
-				// Ajoute les options
-				if (colNb === Object.keys(this.props.headCols).length && this.props.options) {
-					if (this.props.options.length) {
-						values.push(<Dotmenu options={this.props.options} params={row} t={(this.props.t ? this.props.t : null)} key='dotmenu'/>)
-					}
-				}
-
 				// Ajout de la cellule
 				cells.push(
 					<td style={{paddingLeft: '0.5rem', paddingRight: '0.5rem'}} key={colNb}>
@@ -226,6 +238,19 @@ class Datatable extends React.Component {
 						</div>
 					</td>
 				)
+
+				// Ajoute les options
+				if (colNb === Object.keys(this.props.headCols).length && this.props.options) {
+					if (this.props.options.length) {
+						cells.push(
+							<td style={{paddingLeft: '0.5rem', paddingRight: '0.5rem'}} key='dotmenu'>
+								<div className={wrapperButtons}>
+									<Dotmenu options={this.props.options} params={row} t={(this.props.t ? this.props.t : null)}/>
+								</div>
+							</td>
+						)
+					}
+				}
 			}
 
 			// Ajout de la ligne

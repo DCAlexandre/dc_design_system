@@ -31,30 +31,22 @@ export default class Modal extends React.Component {
 			display: 'flex',
 			flexFlow: 'column nowrap',
 			maxHeight: '100vh',
-			width: '50vw',
+			width: (this.props.width ? this.props.width : 'auto'),
 			backgroundColor: '#FFF',
 			padding: '2em',
 		    margin: '1em',
 			zIndex: '9999'
 		}))
-		const close = css(mq({
-			display: 'flex',
-			flexFlow: 'row-reverse',
+		const close = css({
+			marginLeft: '16px',
 			color:"#aaa",
-			float:"right",
 			fontSize:"28px",
-			fontWeight:"bold",
 			'&:hover': {
 				"color":"black",
 				"textDecoration":"none",
 				"cursor":"pointer"
-			},
-			'&:focus': {
-				"color":"black",
-				"textDecoration":"none",
-				"cursor":"pointer"
 			}
-		}))
+		})
 		const styleHeader = {
 			userSelect: 'none',
 			marginBottom: '1em',

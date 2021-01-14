@@ -103,14 +103,26 @@ class Select extends React.Component {
 		}
 	}
 
-	filter = (collection, filters, value) => {
-		if (value) {
-			return collection.filter(data => {
-				return filters.some(key => {
+	filter = (collection, filters, valueSearched) => {
+		if (valueSearched) {
+			const value = valueSearched.toLowerCase()
+			const includes = collection.filter((data) => {
+				return filters.some((key) => {
 					const val = data[key].toString().toLowerCase()
-					return val.includes(value.toLowerCase())
+					return val.includes(value)
 				})
 			})
+
+			for (let index = 0; index < filters.length; index++) {
+				const key = filters[index]
+				includes.sort((a, b) => {
+					const valA = a[key].toString().toLowerCase()
+					const valB = a[key].toString().toLowerCase()
+					return (valA.startsWith(value) ? -1 : valB.startsWith(value) ? 1 : 0)
+				})
+			}
+
+			return includes
 		} else {
 			return collection
 		}
