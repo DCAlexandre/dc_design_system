@@ -101,7 +101,12 @@ class Datatable extends React.Component {
 	sort = (collection, value, desc = true) => {
 		return collection.sort((objA, objB) => {
 			let a, b = ''
-			if (typeof objA[value] === 'string') {
+			const isNumber = (/^\d+$/.test(objA[value]) && /^\d+$/.test(objB[value]))
+
+			if (isNumber) {
+				a = parseInt(objA[value])
+				b = parseInt(objB[value])
+			} else if (typeof objA[value] === 'string') {
 				a = objA[value].toLowerCase()
 				b = objB[value].toLowerCase()
 			} else {
@@ -173,7 +178,7 @@ class Datatable extends React.Component {
 				<tr>
 					<td style={{paddingLeft: '0.5rem', paddingRight: '0.5rem'}}
 						colSpan={Object.keys(this.props.headCols).length}>
-						Loading ...
+						{(this.props.t ? this.props.t('Loading...') : 'Loading...')}
 					</td>
 				</tr>
 			)
