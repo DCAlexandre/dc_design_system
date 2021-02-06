@@ -1,7 +1,7 @@
 {
 	"name": "dc_design_system",
 	"description": "Design system",
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"author": "DCAlexandre",
 	"copyright": "Copyright © year ${author}",
 	"private": false,

@@ -11,7 +11,6 @@ class Option extends React.Component {
 		this._ref = React.createRef()
 	}
 
-
 	render() {
 		const li = css(mq({
 			padding: "7px 9px",
@@ -55,26 +54,21 @@ class Select extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (this.props.options !== prevProps.options) {
+		if (
+			this.props.options !== prevProps.options ||
+			prevProps.defaultOption !== this.props.defaultOption
+		) {
 			this.setState({
 				value: this.props.defaultOption,
 				inputValue: this.getOptionValue(this.props.options[this.props.defaultOption]),
 				options: this.props.options
-			})
+			}, () => this.scrollTo(this.state.value))
 			this._options = this.props.options
-		}
-		if (prevProps.defaultOption !== this.props.defaultOption) {
-			this.setState({
-				value: this.props.defaultOption,
-				inputValue: this.getOptionValue(this.props.options[this.props.defaultOption])
-			})
 		}
 	}
 
 	// Listeners ----------------------------------------------------------------
-	onMouseDown = (iOption) => {
-		this.selectOption(iOption)
-	}
+	onMouseDown = (iOption) => { this.selectOption(iOption) }
 
 	handleKeyDown = (ev) => {
 		if (ev.key === 'Enter') {
@@ -82,25 +76,32 @@ class Select extends React.Component {
 		} else if (ev.key === 'ArrowUp') {
 			if (this.state.value !== 0) {
 				this.setState({ value: (this.state.value-1) })
-				this._refs[(this.state.value-1)]._ref.scrollIntoView({block: 'start', behavior: 'smooth'})
+				this.scrollTo(this.state.value-1)
 			}
 		} else if (ev.key === 'ArrowDown') {
 			if (this.state.value !== this.state.options.length-1) {
 				this.setState({ value: (this.state.value+1) })
-				this._refs[(this.state.value+1)]._ref.scrollIntoView({block: 'end', behavior: 'smooth'})
+				this.scrollTo(this.state.value+1)
 			}
+		} else if (ev.key === 'Escape') {
+			this.setState({ show: false })
 		}
+	}
+
+	scrollTo(index) {
+		this._refs[index] && this._refs[index]._ref.scrollIntoView({block: 'center', behavior: 'instant'})
 	}
 
 	selectOption(iOption) {
 		// Mise à jour de l'option actuellement sélectionnée
 		const option = this.state.options[iOption]
-		const inputValue = this.getOptionValue(option)
-		this.setState({ value: iOption, inputValue: inputValue, show: false })
+		this.setState({
+			value: iOption,
+			inputValue: this.getOptionValue(option),
+			show: false
+		})
 
-		if (this.props.onChange) {
-			this.props.onChange(option)
-		}
+		if (this.props.onChange) this.props.onChange(option)
 	}
 
 	filter = (collection, filters, valueSearched) => {
@@ -149,18 +150,16 @@ class Select extends React.Component {
 		if (!this.state.options) return []
 
 		let optionItems = []
-
-		this.state.options.map((option, index) => {
+		for (let index = 0; index < this.state.options.length; index++) {
+			const option = this.state.options[index]
 			const optionValue = this.getOptionValue(option)
-
 			optionItems.push(
 				<Option selected={(index === this.state.value)} value={index} text={optionValue}
 					onMouseDown={this.onMouseDown.bind(this, index)}
-					ref={(node) => {this._refs[index] = node}}
+					ref={(node) => { this._refs[index] = node }}
 					key={option[this.props.name]+'-'+index}/>
 			)
-		})
-
+		}
 		return optionItems
 	}
 
@@ -213,8 +212,8 @@ class Select extends React.Component {
 					value={this.state.inputValue}
 					onChange={this.onSearch.bind(this)}
 					onKeyDown={this.handleKeyDown}
-					onFocus={() => this.setState({show:true})}
-					onBlur={() => this.setState({show:false})}/>
+					onFocus={() => this.setState({ show: true }, () => this.scrollTo(this.state.value))}
+					onBlur={() => this.setState({ show: false })}/>
 				<ul className={ul}>
 					{this.renderOptions()}
 				</ul>
