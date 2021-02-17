@@ -1,7 +1,7 @@
 {
 	"name": "dc_design_system",
 	"description": "Design system",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"author": "DCAlexandre",
 	"copyright": "Copyright © year ${author}",
 	"private": false,
@@ -52,8 +52,8 @@
 		"emotion": "^10.0.23",
 		"facepaint": "^1.2.1",
 		"form-serialize": "^0.7.2",
-		"moment": "^2.29.1",
 		"react": "^16.13.1",
+		"react-datepicker": "^3.4.1",
 		"react-docgen": "^5.3.1",
 		"react-dom": "^16.13.1",
 		"react-scripts": "^4.0.0",

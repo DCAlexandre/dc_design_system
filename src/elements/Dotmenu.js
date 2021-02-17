@@ -5,11 +5,16 @@ import MoreHoriz from './svg/MoreHoriz.js'
 export default class Dotmenu extends React.Component {
 	// Renderers ----------------------------------------------------------------
 	render() {
+		let style = {
+			cursor: 'pointer',
+			':hover': { backgroundColor: '#f8f9fa' }
+		}
+
 		return (
-			<div className='dropdown'>
-				<span aria-hidden='true' id='dropdownMenuButton' className={css({ cursor: 'pointer' })}
+			<div className={'dropdown'}>
+				<span aria-hidden='true' id='dropdownMenuButton' className={css(style)}
 					data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-					<MoreHoriz/>
+					<MoreHoriz fill='#000000'/>
 				</span>
 				<div className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
 					{this.renderItems()}
@@ -19,7 +24,7 @@ export default class Dotmenu extends React.Component {
 	}
 
 	renderItems() {
-		let style = { userSelect: 'none', '&:hover': {} }
+		let style = { userSelect: 'none', 'hover': {} }
 
 		let items = []
 		for (let index = 0; index < this.props.options.length; index++) {
@@ -27,7 +32,7 @@ export default class Dotmenu extends React.Component {
 			const disabled = (option.disabled ? option.disabled(this.props.params) : false)
 
 			style.color = (disabled ? '#aaaaaa !important' : 'auto')
-			style['&:hover'] = {
+			style[':hover'] = {
 				cursor: (disabled ? 'default' : 'pointer'),
 				backgroundColor: (disabled ? 'transparent !important' : '#f8f9fa')
 			}
